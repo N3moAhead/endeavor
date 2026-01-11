@@ -39,8 +39,12 @@ func initMux(tpl *template.Template) *http.ServeMux {
 		journal.SaveEntry(w, r)
 	})
 
-	mux.HandleFunc("GET /history", historyController.GetHistory)
-	mux.HandleFunc("GET /day/detail", historyController.GetDayDetail)
+	mux.HandleFunc("GET /history", func(w http.ResponseWriter, r *http.Request) {
+		historyController.GetHistory(w, r, tpl)
+	})
+	mux.HandleFunc("GET /day/detail", func(w http.ResponseWriter, r *http.Request) {
+		historyController.GetDayDetail(w, r, tpl)
+	})
 
 	return mux
 }

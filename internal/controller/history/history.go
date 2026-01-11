@@ -19,7 +19,7 @@ type DayDetailPageData struct {
 	Day *history.DayEntry
 }
 
-func GetHistory(w http.ResponseWriter, r *http.Request) {
+func GetHistory(w http.ResponseWriter, r *http.Request, templates *template.Template) {
 	if r.Method != "GET" {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
@@ -50,12 +50,10 @@ func GetHistory(w http.ResponseWriter, r *http.Request) {
 		Years:       years,
 	}
 
-	// TODO i've alread loaded all the templates i should use them here...
-	tmpl := template.Must(template.ParseFiles("web/templates/history.html"))
-	tmpl.Execute(w, data)
+	templates.ExecuteTemplate(w, "history.html", data)
 }
 
-func GetDayDetail(w http.ResponseWriter, r *http.Request) {
+func GetDayDetail(w http.ResponseWriter, r *http.Request, templates *template.Template) {
 	if r.Method != "GET" {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
@@ -85,6 +83,5 @@ func GetDayDetail(w http.ResponseWriter, r *http.Request) {
 		Day: day,
 	}
 
-	tmpl := template.Must(template.ParseFiles("web/templates/day_detail.html"))
-	tmpl.Execute(w, data)
+	templates.ExecuteTemplate(w, "day_detail.html", data)
 }
