@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Endeavor - Day Detail</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            .container {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                color: #333;
+                margin-bottom: 10px;
+            }
+            .date-header {
+                color: #666;
+                font-size: 18px;
+                margin-bottom: 30px;
+                border-bottom: 2px solid #eee;
+                padding-bottom: 10px;
+            }
+            .nav-section {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .nav-btn {
+                display: inline-block;
+                background: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+                margin: 0 10px;
+                transition: background 0.3s ease;
+            }
+            .nav-btn:hover {
+                background: #0056b3;
+            }
+            .section {
+                margin-bottom: 30px;
+            }
+            .section h2 {
+                color: #333;
+                margin-bottom: 15px;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            .mood-display {
+                font-size: 24px;
+                font-weight: bold;
+                padding: 20px;
+                border-radius: 8px;
+                text-align: center;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+            }
+            .activities-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+                margin-top: 15px;
+            }
+            .category-group {
+                margin-bottom: 20px;
+            }
+            .category-title {
+                font-weight: bold;
+                margin-bottom: 10px;
+                padding: 8px 12px;
+                border-radius: 5px;
+                color: white;
+            }
+            .activity-item {
+                padding: 8px 12px;
+                background: #f8f9fa;
+                border-radius: 5px;
+                margin-bottom: 5px;
+                border-left: 3px solid #6c757d;
+            }
+            .no-activities {
+                color: #666;
+                font-style: italic;
+                text-align: center;
+                padding: 20px;
+                background: #f8f9fa;
+                border-radius: 5px;
+            }
+            .no-mood {
+                color: #666;
+                font-style: italic;
+                text-align: center;
+                padding: 20px;
+                background: #f8f9fa;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="nav-section">
+                <a href="/" class="nav-btn">📝 Daily Entry</a>
+                <a href="/history" class="nav-btn">📊 History</a>
+            </div>
+
+            <h1>Day Details</h1>
+            <div class="date-header">
+                {{.Day.Date.Format "Monday, January 2, 2006"}}
+            </div>
+
+            <div class="section">
+                <h2>How you felt</h2>
+                {{if .Day.Mood}}
+                <div class="mood-display mood-{{.Day.Mood.Name}}">
+                    {{.Day.Mood.Name}} - {{.Day.Mood.Description}}
+                </div>
+                {{else}}
+                <div class="no-mood">No mood recorded for this day</div>
+                {{end}}
+            </div>
+
+            <div class="section">
+                <h2>What you did</h2>
+                {{if .Day.Activities}}
+                <div class="activities-grid">
+                    {{range $category := groupActivitiesByCategory
+                    .Day.Activities}}
+                    <div class="category-group">
+                        <div
+                            class="category-title"
+                            style="background-color: {{$category.Color}}"
+                        >
+                            {{$category.Name}}
+                        </div>
+                        {{range $category.Activities}}
+                        <div class="activity-item">{{.Name}}</div>
+                        {{end}}
+                    </div>
+                    {{end}}
+                </div>
+                {{else}}
+                <div class="no-activities">
+                    No activities recorded for this day
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </body>
+</html>

@@ -2,3 +2,4 @@
 .env_old_old
 /endeavor
 /seed
+node_modules/

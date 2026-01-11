@@ -50,7 +50,8 @@ func GetHistory(w http.ResponseWriter, r *http.Request) {
 		Years:       years,
 	}
 
-	tmpl := template.Must(template.ParseFiles("web/history.html"))
+	// TODO i've alread loaded all the templates i should use them here...
+	tmpl := template.Must(template.ParseFiles("web/templates/history.html"))
 	tmpl.Execute(w, data)
 }
 
@@ -84,6 +85,6 @@ func GetDayDetail(w http.ResponseWriter, r *http.Request) {
 		Day: day,
 	}
 
-	tmpl := template.Must(template.ParseFiles("web/day_detail.html"))
+	tmpl := template.Must(template.ParseFiles("web/templates/day_detail.html"))
 	tmpl.Execute(w, data)
 }

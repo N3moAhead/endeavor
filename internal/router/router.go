@@ -27,12 +27,15 @@ func New() *Router {
 func initMux(tpl *template.Template) *http.ServeMux {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+	fs := http.FileServer(http.Dir("web/static"))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	mux.HandleFunc("GET /{$}", func(w http.ResponseWriter, r *http.Request) {
 		data := journal.GetPageData()
 		tpl.ExecuteTemplate(w, "index.html", data)
 	})
 
-	mux.HandleFunc("POST /", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("POST /{$}", func(w http.ResponseWriter, r *http.Request) {
 		journal.SaveEntry(w, r)
 	})
 
@@ -47,7 +50,7 @@ func initTemplates() *template.Template {
 		"groupActivitiesByCategory": groupActivitiesByCategory,
 	}
 
-	tpl, err := template.New("").Funcs(funcMap).ParseGlob("web/*.html")
+	tpl, err := template.New("").Funcs(funcMap).ParseGlob("web/templates/*.html")
 	if err != nil {
 		panic(err)
 	}
