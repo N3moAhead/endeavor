@@ -2,8 +2,8 @@
 <html>
     <head>
         <title>Endeavor - Your Journal</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@
                 background: white;
                 padding: 30px;
                 border-radius: 10px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             }
             h1 {
                 color: #333;
@@ -51,12 +51,12 @@
                 background: white;
             }
             .mood-option input[type="radio"]:checked + label {
-                border-color: #4CAF50;
+                border-color: #4caf50;
                 background: #e8f5e8;
                 transform: scale(1.05);
             }
             .mood-option label:hover {
-                border-color: #4CAF50;
+                border-color: #4caf50;
                 background: #f9f9f9;
             }
             .activities-section {
@@ -98,7 +98,7 @@
                 margin-top: 30px;
             }
             .submit-btn {
-                background: #4CAF50;
+                background: #4caf50;
                 color: white;
                 padding: 15px 30px;
                 border: none;
@@ -191,10 +191,11 @@
             </div>
 
             <h1>How was your day?</h1>
-            
+
             {{if .Journal.Mood}}
             <div class="success-message">
-                Your entry for today has been saved! You can modify it at any time.
+                Your entry for today has been saved! You can modify it at any
+                time.
             </div>
             {{end}}
 
@@ -204,10 +205,18 @@
                     <div class="mood-options">
                         {{range .Moods}}
                         <div class="mood-option">
-                            <input type="radio" id="mood-{{.Value}}" name="mood" value="{{.Value}}" 
-                                {{if eq $.SelectedMood .Name}}checked{{end}}>
+                            <input
+                                type="radio"
+                                id="mood-{{.Value}}"
+                                name="mood"
+                                value="{{.Value}}"
+                                {{if
+                                eq
+                                $.SelectedMood
+                                .Name}}checked{{end}}
+                            />
                             <label for="mood-{{.Value}}">
-                                <strong>{{.Name}}</strong><br>
+                                <strong>{{.Name}}</strong><br />
                                 <small>{{.Description}}</small>
                             </label>
                         </div>
@@ -217,37 +226,64 @@
 
                 <div class="activities-section">
                     <h2>What did you do today?</h2>
-                    
+
                     <!-- Add new activity section -->
                     <div class="add-activity-section">
                         <h3>Add a new activity:</h3>
                         <div class="new-activity-form">
-                            <input type="text" name="new_activity" placeholder="Enter new activity name..." class="new-activity-input">
-                            <select name="new_activity_category" class="new-activity-category">
+                            <input
+                                type="text"
+                                name="new_activity"
+                                placeholder="Enter new activity name..."
+                                class="new-activity-input"
+                            />
+                            <select
+                                name="new_activity_category"
+                                class="new-activity-category"
+                            >
                                 <option value="">Select category...</option>
                                 {{range $.Journal.Categories}}
                                 <option value="{{.ID}}">{{.Name}}</option>
                                 {{end}}
                             </select>
-                            <button type="submit" class="add-activity-btn" onclick="this.form.submit()">Add Activity</button>
+                            <button
+                                type="submit"
+                                class="add-activity-btn"
+                                onclick="this.form.submit()"
+                            >
+                                Add Activity
+                            </button>
                         </div>
                     </div>
-                    
+
                     <div class="activities-grid">
                         {{range $category := $.Journal.Categories}}
                         <div class="category">
-                            <div class="category-title" style="background-color: {{$category.Color}}">
+                            <div
+                                class="category-title"
+                                style="background-color: {{$category.Color}}"
+                            >
                                 {{$category.Name}}
                             </div>
-                            {{range $act := $.Activities}}
-                                {{if eq $act.CategoryID $category.ID}}
-                                <div class="activity-option">
-                                    <input type="checkbox" id="act-{{$act.ID}}" name="activities" value="{{$act.ID}}"
-                                        {{range $.SelectedActivities}}{{if eq . $act.ID}}checked{{end}}{{end}}>
-                                    <label for="act-{{$act.ID}}">{{$act.Name}}</label>
-                                </div>
-                                {{end}}
-                            {{end}}
+                            {{range $act := $.Activities}} {{if eq
+                            $act.CategoryID $category.ID}}
+                            <div class="activity-option">
+                                <input
+                                    type="checkbox"
+                                    id="act-{{$act.ID}}"
+                                    name="activities"
+                                    value="{{$act.ID}}"
+                                    {{range
+                                    $.SelectedActivities}}{{if
+                                    eq
+                                    .
+                                    $act.ID}}checked{{end}}{{end}}
+                                />
+                                <label for="act-{{$act.ID}}"
+                                    >{{$act.Name}}</label
+                                >
+                            </div>
+                            {{end}} {{end}}
                         </div>
                         {{end}}
                     </div>

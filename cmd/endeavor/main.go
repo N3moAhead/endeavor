@@ -34,5 +34,6 @@ func main() {
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+	log.Println("Server listening on: http://localhost:9090")
 	log.Fatal(s.ListenAndServe())
 }

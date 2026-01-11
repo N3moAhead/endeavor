@@ -2,8 +2,8 @@
 <html>
     <head>
         <title>Endeavor - History</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@
                 background: white;
                 padding: 30px;
                 border-radius: 10px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             }
             h1 {
                 color: #333;
@@ -69,7 +69,7 @@
             }
             .day-tile:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
             .day-date {
                 font-weight: bold;
@@ -84,11 +84,21 @@
                 font-size: 12px;
                 color: #666;
             }
-            .mood-bad { border-left: 4px solid #dc3545; }
-            .mood-meh { border-left: 4px solid #ffc107; }
-            .mood-okay { border-left: 4px solid #28a745; }
-            .mood-good { border-left: 4px solid #17a2b8; }
-            .mood-amazing { border-left: 4px solid #6f42c1; }
+            .mood-bad {
+                border-left: 4px solid #dc3545;
+            }
+            .mood-meh {
+                border-left: 4px solid #ffc107;
+            }
+            .mood-okay {
+                border-left: 4px solid #28a745;
+            }
+            .mood-good {
+                border-left: 4px solid #17a2b8;
+            }
+            .mood-amazing {
+                border-left: 4px solid #6f42c1;
+            }
             .no-entries {
                 text-align: center;
                 color: #666;
@@ -100,7 +110,7 @@
     <body>
         <div class="container">
             <h1>Endeavor History</h1>
-            
+
             <div class="nav-section">
                 <a href="/" class="nav-btn">📝 Daily Entry</a>
                 <a href="/history" class="nav-btn">📊 History</a>
@@ -118,15 +128,14 @@
 
             <div class="history-grid" id="history-grid">
                 {{range .Days}}
-                <a href="/day/detail?id={{.ID}}" class="day-tile mood-{{if .Mood}}{{.Mood.Name}}{{else}}none{{end}}" 
-                   data-year="{{.Date.Year}}">
+                <a
+                    href="/day/detail?id={{.ID}}"
+                    class="day-tile mood-{{if .Mood}}{{.Mood.Name}}{{else}}none{{end}}"
+                    data-year="{{.Date.Year}}"
+                >
                     <div class="day-date">{{.Date.Format "Jan 02"}}</div>
                     <div class="day-mood">
-                        {{if .Mood}}
-                        {{.Mood.Name}}
-                        {{else}}
-                        😐
-                        {{end}}
+                        {{if .Mood}} {{.Mood.Name}} {{else}} 😐 {{end}}
                     </div>
                     <div class="day-activities-count">
                         {{len .Activities}} activities
@@ -142,14 +151,18 @@
 
         <script>
             function filterByYear() {
-                const selectedYear = document.getElementById('year-select').value;
-                const tiles = document.querySelectorAll('.day-tile');
-                
-                tiles.forEach(tile => {
-                    if (selectedYear === '' || tile.dataset.year === selectedYear) {
-                        tile.style.display = 'block';
+                const selectedYear =
+                    document.getElementById("year-select").value;
+                const tiles = document.querySelectorAll(".day-tile");
+
+                tiles.forEach((tile) => {
+                    if (
+                        selectedYear === "" ||
+                        tile.dataset.year === selectedYear
+                    ) {
+                        tile.style.display = "block";
                     } else {
-                        tile.style.display = 'none';
+                        tile.style.display = "none";
                     }
                 });
             }
