@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Endeavor - Your Journal</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            .container {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            h1 {
+                color: #333;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .mood-section {
+                margin-bottom: 30px;
+            }
+            .mood-options {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 15px;
+            }
+            .mood-option {
+                flex: 1;
+                min-width: 100px;
+                text-align: center;
+            }
+            .mood-option input[type="radio"] {
+                display: none;
+            }
+            .mood-option label {
+                display: block;
+                padding: 15px 10px;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background: white;
+            }
+            .mood-option input[type="radio"]:checked + label {
+                border-color: #4CAF50;
+                background: #e8f5e8;
+                transform: scale(1.05);
+            }
+            .mood-option label:hover {
+                border-color: #4CAF50;
+                background: #f9f9f9;
+            }
+            .activities-section {
+                margin-bottom: 30px;
+            }
+            .activities-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+                margin-top: 15px;
+            }
+            .category {
+                margin-bottom: 20px;
+            }
+            .category-title {
+                font-weight: bold;
+                margin-bottom: 10px;
+                padding: 5px 10px;
+                border-radius: 5px;
+                color: white;
+            }
+            .activity-option {
+                display: flex;
+                align-items: center;
+                padding: 8px;
+                background: #f9f9f9;
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+            .activity-option input[type="checkbox"] {
+                margin-right: 10px;
+            }
+            .activity-option label {
+                cursor: pointer;
+                flex: 1;
+            }
+            .submit-section {
+                text-align: center;
+                margin-top: 30px;
+            }
+            .submit-btn {
+                background: #4CAF50;
+                color: white;
+                padding: 15px 30px;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+            .submit-btn:hover {
+                background: #45a049;
+            }
+            .success-message {
+                background: #d4edda;
+                color: #155724;
+                padding: 15px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            .add-activity-section {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                border: 1px solid #dee2e6;
+            }
+            .add-activity-section h3 {
+                margin-top: 0;
+                margin-bottom: 15px;
+                color: #495057;
+            }
+            .new-activity-form {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            .new-activity-input {
+                flex: 1;
+                min-width: 200px;
+                padding: 8px 12px;
+                border: 1px solid #ced4da;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+            .new-activity-category {
+                padding: 8px 12px;
+                border: 1px solid #ced4da;
+                border-radius: 4px;
+                font-size: 14px;
+                min-width: 150px;
+            }
+            .add-activity-btn {
+                background: #28a745;
+                color: white;
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 14px;
+                white-space: nowrap;
+            }
+            .add-activity-btn:hover {
+                background: #218838;
+            }
+            .nav-section {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .nav-btn {
+                display: inline-block;
+                background: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+                margin: 0 10px;
+                transition: background 0.3s ease;
+            }
+            .nav-btn:hover {
+                background: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="nav-section">
+                <a href="/" class="nav-btn">📝 Daily Entry</a>
+                <a href="/history" class="nav-btn">📊 History</a>
+            </div>
+
+            <h1>How was your day?</h1>
+            
+            {{if .Journal.Mood}}
+            <div class="success-message">
+                Your entry for today has been saved! You can modify it at any time.
+            </div>
+            {{end}}
+
+            <form method="POST" action="/">
+                <div class="mood-section">
+                    <h2>How do you feel today?</h2>
+                    <div class="mood-options">
+                        {{range .Moods}}
+                        <div class="mood-option">
+                            <input type="radio" id="mood-{{.Value}}" name="mood" value="{{.Value}}" 
+                                {{if eq $.SelectedMood .Name}}checked{{end}}>
+                            <label for="mood-{{.Value}}">
+                                <strong>{{.Name}}</strong><br>
+                                <small>{{.Description}}</small>
+                            </label>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+
+                <div class="activities-section">
+                    <h2>What did you do today?</h2>
+                    
+                    <!-- Add new activity section -->
+                    <div class="add-activity-section">
+                        <h3>Add a new activity:</h3>
+                        <div class="new-activity-form">
+                            <input type="text" name="new_activity" placeholder="Enter new activity name..." class="new-activity-input">
+                            <select name="new_activity_category" class="new-activity-category">
+                                <option value="">Select category...</option>
+                                {{range $.Journal.Categories}}
+                                <option value="{{.ID}}">{{.Name}}</option>
+                                {{end}}
+                            </select>
+                            <button type="submit" class="add-activity-btn" onclick="this.form.submit()">Add Activity</button>
+                        </div>
+                    </div>
+                    
+                    <div class="activities-grid">
+                        {{range $category := $.Journal.Categories}}
+                        <div class="category">
+                            <div class="category-title" style="background-color: {{$category.Color}}">
+                                {{$category.Name}}
+                            </div>
+                            {{range $act := $.Activities}}
+                                {{if eq $act.CategoryID $category.ID}}
+                                <div class="activity-option">
+                                    <input type="checkbox" id="act-{{$act.ID}}" name="activities" value="{{$act.ID}}"
+                                        {{range $.SelectedActivities}}{{if eq . $act.ID}}checked{{end}}{{end}}>
+                                    <label for="act-{{$act.ID}}">{{$act.Name}}</label>
+                                </div>
+                                {{end}}
+                            {{end}}
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn">Save Entry</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
