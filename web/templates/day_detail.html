@@ -1,157 +1,115 @@
 <!doctype html>
-<html>
+<html lang="en" class="dark">
     <head>
         <title>Endeavor - Day Detail</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 20px;
-                background-color: #f5f5f5;
-            }
-            .container {
-                background: white;
-                padding: 30px;
-                border-radius: 10px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            }
-            h1 {
-                color: #333;
-                margin-bottom: 10px;
-            }
-            .date-header {
-                color: #666;
-                font-size: 18px;
-                margin-bottom: 30px;
-                border-bottom: 2px solid #eee;
-                padding-bottom: 10px;
-            }
-            .nav-section {
-                text-align: center;
-                margin-bottom: 30px;
-            }
-            .nav-btn {
-                display: inline-block;
-                background: #007bff;
-                color: white;
-                padding: 10px 20px;
-                text-decoration: none;
-                border-radius: 5px;
-                margin: 0 10px;
-                transition: background 0.3s ease;
-            }
-            .nav-btn:hover {
-                background: #0056b3;
-            }
-            .section {
-                margin-bottom: 30px;
-            }
-            .section h2 {
-                color: #333;
-                margin-bottom: 15px;
-                padding: 10px;
-                border-radius: 5px;
-            }
-            .mood-display {
-                font-size: 24px;
-                font-weight: bold;
-                padding: 20px;
-                border-radius: 8px;
-                text-align: center;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-            }
-            .activities-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 15px;
-                margin-top: 15px;
-            }
-            .category-group {
-                margin-bottom: 20px;
-            }
-            .category-title {
-                font-weight: bold;
-                margin-bottom: 10px;
-                padding: 8px 12px;
-                border-radius: 5px;
-                color: white;
-            }
-            .activity-item {
-                padding: 8px 12px;
-                background: #f8f9fa;
-                border-radius: 5px;
-                margin-bottom: 5px;
-                border-left: 3px solid #6c757d;
-            }
-            .no-activities {
-                color: #666;
-                font-style: italic;
-                text-align: center;
-                padding: 20px;
-                background: #f8f9fa;
-                border-radius: 5px;
-            }
-            .no-mood {
-                color: #666;
-                font-style: italic;
-                text-align: center;
-                padding: 20px;
-                background: #f8f9fa;
-                border-radius: 5px;
-            }
-        </style>
+        <link href="/static/css/style.css" rel="stylesheet" />
     </head>
-    <body>
-        <div class="container">
-            <div class="nav-section">
-                <a href="/" class="nav-btn">📝 Daily Entry</a>
-                <a href="/history" class="nav-btn">📊 History</a>
-            </div>
-
-            <h1>Day Details</h1>
-            <div class="date-header">
-                {{.Day.Date.Format "Monday, January 2, 2006"}}
-            </div>
-
-            <div class="section">
-                <h2>How you felt</h2>
-                {{if .Day.Mood}}
-                <div class="mood-display mood-{{.Day.Mood.Name}}">
-                    {{.Day.Mood.Name}} - {{.Day.Mood.Description}}
+    <body class="bg-gray-900 text-gray-200 antialiased">
+        <div class="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+            <header class="text-center mb-10">
+                <div class="nav-section mb-8">
+                    <a
+                        href="/"
+                        class="text-lg font-semibold text-gray-300 hover:bg-gray-700 py-3 px-5 rounded-lg mx-2 transition-colors"
+                        >📝 Daily Entry</a
+                    >
+                    <a
+                        href="/history"
+                        class="text-lg font-semibold text-white bg-gray-800 py-3 px-5 rounded-lg mx-2 border-2 border-indigo-500 shadow-[0_0_15px_rgba(79,70,229,0.8)]"
+                        >📊 History</a
+                    >
                 </div>
-                {{else}}
-                <div class="no-mood">No mood recorded for this day</div>
-                {{end}}
-            </div>
+                <h1 class="text-4xl font-bold text-white">Day Details</h1>
+                <div class="date-header text-center text-xl text-gray-400 mt-2">
+                    {{.Day.Date.Format "Monday, January 2, 2006"}}
+                </div>
+            </header>
 
-            <div class="section">
-                <h2>What you did</h2>
-                {{if .Day.Activities}}
-                <div class="activities-grid">
-                    {{range $category := groupActivitiesByCategory
-                    .Day.Activities}}
-                    <div class="category-group">
-                        <div
-                            class="category-title"
-                            style="background-color: {{$category.Color}}"
-                        >
-                            {{$category.Name}}
+            <div class="space-y-12">
+                <div class="section">
+                    <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                        How you felt
+                    </h2>
+                    {{if .Day.Mood}}
+                    <div
+                        class="bg-gray-800 rounded-lg p-8 text-center max-w-sm mx-auto border-2
+                        {{if not .Day.Mood}}border-gray-700{{end}}
+                        {{if .Day.Mood}}
+                            {{if eq .Day.Mood.Name "bad"}}border-red-700 ring-2 ring-red-700/50{{end}}
+                            {{if eq .Day.Mood.Name "meh"}}border-orange-500 ring-2 ring-orange-500/50{{end}}
+                            {{if eq .Day.Mood.Name "okay"}}border-yellow-500 ring-2 ring-yellow-500/50{{end}}
+                            {{if eq .Day.Mood.Name "good"}}border-green-400 ring-2 ring-green-400/50{{end}}
+                            {{if eq .Day.Mood.Name "amazing"}}border-green-600 ring-2 ring-green-600/50{{end}}
+                        {{end}}"
+                    >
+                        <span class="text-6xl mb-4 block">
+                            {{if eq .Day.Mood.Name "amazing"}}🎉{{end}} {{if eq
+                            .Day.Mood.Name "good"}}😄{{end}} {{if eq
+                            .Day.Mood.Name "okay"}}🙂{{end}} {{if eq
+                            .Day.Mood.Name "meh"}}😐{{end}} {{if eq
+                            .Day.Mood.Name "bad"}}😞{{end}}
+                        </span>
+                        <div class="text-3xl font-bold text-white">
+                            {{.Day.Mood.Description}}
                         </div>
-                        {{range $category.Activities}}
-                        <div class="activity-item">{{.Name}}</div>
-                        {{end}}
+                    </div>
+                    {{else}}
+                    <div
+                        class="bg-gray-800 rounded-lg p-8 text-center border border-gray-700"
+                    >
+                        <p class="text-gray-400 italic">
+                            No mood recorded for this day
+                        </p>
                     </div>
                     {{end}}
                 </div>
-                {{else}}
-                <div class="no-activities">
-                    No activities recorded for this day
+
+                <div class="section">
+                    <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                        What you did
+                    </h2>
+                    {{if .Day.Activities}}
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    >
+                        {{range $category := groupActivitiesByCategory
+                        .Day.Activities}}
+                        <div
+                            class="bg-gray-800 rounded-lg p-5 border border-gray-700"
+                        >
+                            <div class="flex items-center mb-4">
+                                <span
+                                    class="w-4 h-4 rounded-full mr-3 flex-shrink-0"
+                                    style="background-color: {{$category.Color}}"
+                                ></span>
+                                <h3 class="font-bold text-xl text-gray-100">
+                                    {{$category.Name}}
+                                </h3>
+                            </div>
+                            <ul class="space-y-2">
+                                {{range $category.Activities}}
+                                <li
+                                    class="p-3 rounded-md bg-gray-700/50 text-gray-300"
+                                >
+                                    {{.Name}}
+                                </li>
+                                {{end}}
+                            </ul>
+                        </div>
+                        {{end}}
+                    </div>
+                    {{else}}
+                    <div
+                        class="bg-gray-800 rounded-lg p-8 text-center border border-gray-700"
+                    >
+                        <p class="text-gray-400 italic">
+                            No activities recorded for this day
+                        </p>
+                    </div>
+                    {{end}}
                 </div>
-                {{end}}
             </div>
         </div>
     </body>
