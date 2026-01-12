@@ -52,18 +52,12 @@ A personal journaling web application built with Go and PostgreSQL, designed to 
    docker-compose up -d
    ```
 
-5. **Run database migrations**
-   ```bash
-   # Apply migrations (adjust path as needed)
-   migrate -path internal/db/migrations -database "$DATABASE_URL" up
-   ```
-
-6. **Seed the database**
+5. **Seed the database**
    ```bash
    make seed
    ```
 
-7. **Start development server**
+6. **Start development server**
    ```bash
    make dev
    ```
