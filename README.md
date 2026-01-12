@@ -167,3 +167,7 @@ This project is open source and available under the [MIT License](LICENSE).
 Endeavor is a personal project focused on making journaling and self-reflection a daily habit. It's designed to be simple, fast, and insightful - helping you track your progress towards personal goals while maintaining a record of your journey.
 
 Built with ❤️ using Go and PostgreSQL.
+
+# Impressions
+
+![Journal Image](./images/journal.png)
